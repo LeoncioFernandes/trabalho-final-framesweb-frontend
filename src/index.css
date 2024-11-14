@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+   /* FONTE OPENSANS */
+   @font-face {
+    font-family: 'Open Sans';
+    src: url(/fonts/OpenSans-VariableFont_wdth,wght.ttf) format(truetype);
+    font-weight: 300 800;
+    font-style: normal;
+    font-stretch: normal;
+  }
+  
+  @font-face {
+    font-family: 'Open Sans';
+    src: url(/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf) format(truetype);
+    font-weight: 300 800;
+    font-style: italic;
+    font-stretch: normal;
+  }
+
+  @font-face {
+    font-family: 'Open Sans Semi-Condensed';
+    src: url(/fonts/OpenSans-VariableFont_wdth,wght.ttf) format(truetype);
+    font-weight: 300 800;
+    font-style: normal;
+    font-stretch: semi-condensed;
+  }
+  
+  @font-face {
+    font-family: 'Open Sans Semi-Condensed';
+    src: url(/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf) format(truetype);
+    font-weight: 300 800;
+    font-style: italic;
+    font-stretch: semi-condensed;
+  }
+
+  @font-face {
+    font-family: 'Open Sans Condensed';
+    src: url(/fonts/OpenSans-VariableFont_wdth,wght.ttf) format(truetype);
+    font-weight: 300 800;
+    font-style: normal;
+    font-stretch: condensed;
+  }
+  
+  @font-face {
+    font-family: 'Open Sans Condensed';
+    src: url(/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf) format(truetype);
+    font-weight: 300 800;
+    font-style: italic;
+    font-stretch: condensed;
+  }
+}
