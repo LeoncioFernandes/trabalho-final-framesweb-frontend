@@ -1,50 +1,54 @@
-# React + TypeScript + Vite
+# Cadastro de Filmes (FrontEnd)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+### Atividade desenvolvida no curso de Programação com Frameworks Web.
 
-Currently, two official plugins are available:
+Esta atividade consiste em criar uma tela cadastro, listagem, edição e remoção de Filmes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Requisitos
 
-## Expanding the ESLint configuration
+- Cadastrar um Filme;
+- Listar todos os Filmes;
+- Editar um Filme;
+- Excluir um Filme.
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+## Persistência de informações
 
-- Configure the top-level `parserOptions` property like this:
+- Os dados serão persistidos ao consumir a API desenvolvida no BackEnd para esse projeto.
+- linkAPI
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Clonar o Projeto:
+```
+git clone https://github.com/LeoncioFernandes/trabalho-final-framesweb-frontend.git
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Instalar as dependências:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
 ```
+npm install
+```
+
+### Rodar o Projeto:
+
+```
+npm run dev
+```
+
+### Tecnologias Utilizadas:
+
+- React
+- TypeScript
+- Tailwind CSS (Estilização)
+- React Icons (Ícones Componentizados)
+- HookForm
+- Zod (Validação de Formulários)
+- Axios (Consumo de API)
+
+### API consumida:
+
+- API customizada para cadastro e persistência em banco de dados SQL
+
+### Equipe:
+
+- [Igor Brito](https://github.com/IgorBrito02)
+- [Leoncio Fernandes](https://github.com/LeoncioFernandes)
+- [Thiago Ewerton](https://github.com/ThiagoEwer)
