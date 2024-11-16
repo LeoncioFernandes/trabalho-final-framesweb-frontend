@@ -42,6 +42,7 @@ npm run dev
 - HookForm
 - Zod (Validação de Formulários)
 - Axios (Consumo de API)
+- Toastify (Notificações ao Usuário)
 
 ### API consumida:
 

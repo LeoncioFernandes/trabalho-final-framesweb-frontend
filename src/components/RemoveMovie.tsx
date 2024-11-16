@@ -3,6 +3,7 @@ import { Menu } from "../enums/MenuEnum";
 import instance from "../hooks/instanceApi";
 import { RemoveMovieProps } from "../types/RemoveMovieProps";
 import { Movie } from "../types/MovieTypes";
+import { toast } from "react-toastify";
 
 export default function RemoveMovie({idMovie, activatingMenu}: RemoveMovieProps) {
 
@@ -27,8 +28,26 @@ export default function RemoveMovie({idMovie, activatingMenu}: RemoveMovieProps)
         
         await instance.delete(`movie/${idMovie}`)
 
+        toast.success("Filme excluído com sucesso!", {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          progressStyle: {
+            background: '#8D5EF2'
+          },
+          style: {
+            background: '#E9ECF2', 
+            color: '#000000'
+          }
+        });
+
       } catch (error) {
         console.error("Erro ao deletar o filme:", error);
+        toast.error("Ocorreu um erro ao tentar excluir o filme.");
       }
     }
 

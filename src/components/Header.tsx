@@ -28,12 +28,12 @@ export default function Header({activeInicialMenu, idMovie, activatingMenu}: Hea
   },[activeInicialMenu])
 
   return (
-    <header className="w-full px-4 py-6 bg-primiry text-white rounded-b-2xl">
-      <nav className="relative flex justify-center items-center flex-row">
-        <div className="absolute left-0">
-          <img src="/vite.svg" alt="" />
+    <header className="w-full px-4 py-2 sm:py-12 bg-primiry text-white rounded-b-2xl">
+      <nav className="relative flex justify-center items-center flex-col sm:flex-row">
+        <div className="sm:absolute left-0">
+          <img src="/images/LogoCinema.svg" alt="imagem" className="w-36" />
         </div>
-        <ul className="flex flex-row gap-6 text-2xl">
+        <ul className="flex flex-row gap-6 text-2xl pb-4 sm:pb-0">
           {menus.map((menu, index) => (
             <li
               key={index}

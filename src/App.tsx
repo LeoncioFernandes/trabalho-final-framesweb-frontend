@@ -4,6 +4,8 @@ import { Menu } from "./enums/MenuEnum"
 import ListMovies from "./components/ListMovies"
 import FormAddEditMovie from "./components/FormAddEditMovie"
 import RemoveMovie from "./components/RemoveMovie"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
 
@@ -47,6 +49,8 @@ function App() {
           idMovie={idMovie}
         />
       )}
+
+      <ToastContainer />
     </>
   )
 }
