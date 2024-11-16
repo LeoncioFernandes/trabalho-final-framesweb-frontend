@@ -3,7 +3,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormAddEditMovieProps } from "../types/FormAddEditMoviePropsTypes";
 import { Menu } from "../enums/MenuEnum";
-import { movies } from "../data/Movies";
+import instance from "../hooks/instanceApi";
+import { useEffect, useState } from "react";
+import { Movie } from "../types/MovieTypes";
 
 const schema = z.object({
   title: z.string().min(1, {message: "Titulo obrigatório."}),
@@ -16,48 +18,61 @@ type FormMovieProps = z.infer<typeof schema>;
 
 export default function FormAddEditMovie({idMovie, activatingMenu}: FormAddEditMovieProps) {
 
-  const movieById = movies.find((movie) => movie.id === idMovie)
+  const [movieById, setMovieById] = useState<Movie>();
+
+  const fetchData = async () => {
+    const result = await instance.get(`movies/${idMovie}`);
+    setMovieById(result.data.movie);
+  }
+
+  useEffect(() => {
+    if(idMovie){
+      fetchData();
+    }
+  }, [])
+
+  useEffect(() => {
+    if (movieById) {
+      reset({
+        title: movieById.title,
+        ageGroup: movieById.ageGroup,
+        actor: movieById.actor,
+        genre: movieById.genre,
+      });
+    }
+  }, [movieById]);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<FormMovieProps>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      title: movieById?.title,
-      ageGroup: movieById?.ageGroup,
-      actor: movieById?.actor,
-      genre: movieById?.genre
-    }
   })
 
-  const onSubmit = (data: FormMovieProps) => {
+  const onSubmit = async (data: FormMovieProps) => {
 
     if(idMovie){
 
-      movies.map((movie) => {
-        if(movie.id === idMovie){
-          movie.title = data.title;
-          movie.ageGroup = data.ageGroup;
-          movie.actor = data.actor;
-          movie.genre = data.genre;
-          return
-        }
-        return
-      })
+      try {
 
-    }else{
+        await instance.put(`movie/${idMovie}`, data)
+        
+      } catch (error) {
+        console.error("Erro ao atualizar o filme:", error);
+      }
 
-      const newId: number = movies.length === 0 ? 1 : movies[movies.length - 1].id + 1;
 
-      movies.push({
-        id: newId,
-        title: data.title,
-        ageGroup: data.ageGroup,
-        actor: data.actor,
-        genre: data.genre
-      })
+    } else {
+
+      try {
+
+        await instance.post(`movie`, data)
+        
+      } catch (error) {
+        console.error("Erro ao cadastrar o filme:", error);
+      }
       
     }
 

@@ -1,17 +1,38 @@
-import { movies } from "../data/Movies";
+import { useEffect, useState } from "react";
 import { Menu } from "../enums/MenuEnum";
+import instance from "../hooks/instanceApi";
 import { RemoveMovieProps } from "../types/RemoveMovieProps";
+import { Movie } from "../types/MovieTypes";
 
 export default function RemoveMovie({idMovie, activatingMenu}: RemoveMovieProps) {
 
-  const movieById = movies.find((movie) => movie.id === idMovie)
+  const [movieById, setMovieById] = useState<Movie>();
 
-  function onDelete(){
-    const index = movies.findIndex((movie) => movie.id === idMovie)
-    if(index !== -1){
-      movies.splice(index, 1)
+  const fetchData = async () => {
+    const result = await instance.get(`movies/${idMovie}`);
+    setMovieById(result.data.movie);
+  }
+
+  useEffect(() => {
+    if(idMovie){
+      fetchData();
     }
-    activatingMenu(undefined, Menu.LISTAR);
+  }, [])
+
+  async function onDelete(){
+    
+    if(idMovie){
+
+      try {
+        
+        await instance.delete(`movie/${idMovie}`)
+
+      } catch (error) {
+        console.error("Erro ao deletar o filme:", error);
+      }
+    }
+
+    return activatingMenu(undefined, Menu.LISTAR);
   }
   
   return (

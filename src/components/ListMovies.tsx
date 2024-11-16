@@ -1,18 +1,33 @@
-import { movies } from "../data/Movies"
+// import { movies } from "../data/Movies"
 import { Menu } from "../enums/MenuEnum";
 import { GrEdit, GrTrash } from "react-icons/gr";
 import { ListMoviesProps } from "../types/ListMoviesPropsProps";
+import { useEffect, useState } from "react";
+import instance from "../hooks/instanceApi";
+import { Movie } from "../types/MovieTypes";
 
 export default function ListMovies({activatingMenu}: ListMoviesProps) {
+
+  const [movies, setMovies] = useState<Movie[]>();
 
   function onClick(id: number, menu: Menu){
     activatingMenu(id, menu)
   }
 
+  const fetchData = async () => {
+    const result = await instance.get('movies');
+
+    setMovies(result.data.movies);
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
   return (
     <div className="flex flex-col justify-center items-center p-4 overflow-x-auto">
       <h1 className="font-bold text-3xl px-4 pb-4">Listagem de Filmes</h1>
-      {movies.length === 0 ? (
+      {movies && movies.length === 0 ? (
         <p className="text-lg p-4">Não existem filmes cadastrados!</p>
       ) : (
         <table className="w-full max-w-7xl border-collapse border-4 border-primiry">
@@ -26,7 +41,7 @@ export default function ListMovies({activatingMenu}: ListMoviesProps) {
             </tr>
           </thead>
           <tbody>
-            {movies.map((movie, index) => (
+            {movies && movies.map((movie, index) => (
               <tr
                 key={movie.id}
                 className={`border ${index % 2 == 0 && "bg-variation2"}`}
