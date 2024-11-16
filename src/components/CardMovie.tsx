@@ -1,26 +1,12 @@
 import { GrEdit, GrTrash } from "react-icons/gr"
 import { Menu } from "../enums/MenuEnum"
-
-type CardMovieProps = {
-  id: number,
-  urlImage: string,
-  title: string,
-  description: string
-  actor: string,
-  genre: string,
-  ageGroup: string,
-  duration: string,
-  releaseYear: string,
-  score: string,
-  onClick: (id: number, menu: Menu) => void
-}
-
+import { CardMovieProps } from "../types/CardMovieTypes";
 
 export default function CardMovie({id, urlImage, title, description, actor, genre, ageGroup, duration, releaseYear, score, onClick}: CardMovieProps){
 
   const scorePercentualIni = (Number(score.replace(",", ".")) * 100) / 5;
   const scorePercentualEnd = scorePercentualIni < 50 ? scorePercentualIni - 100 : 100 - scorePercentualIni;
-  
+
   return(
     <div
       className="flex flex-col min-[900px]:flex-row items-stretch gap-4 bg-variation2 rounded-xl p-4 drop-shadow-xl"
