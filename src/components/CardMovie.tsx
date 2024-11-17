@@ -19,7 +19,7 @@ export default function CardMovie({id, urlImage, title, description, actor, genr
       <div className="flex flex-col justify-between gap-6 max-w-5xl">
 
         <div className="flex flex-col gap-2">
-          <p className="font-bold text-xl">{title}</p>
+          <p className="font-bold text-2xl text-center min-[900px]:text-left">{title}</p>
           <p>{description}</p>
           <div className="flex flex-col gap-3">
             
@@ -61,7 +61,7 @@ export default function CardMovie({id, urlImage, title, description, actor, genr
                     key={index}
                     src="./star.svg"
                     alt="star"
-                    className="w-7"
+                    className="w-7 h-7"
                   />
                 ))}
               </div>
