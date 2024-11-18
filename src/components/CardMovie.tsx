@@ -27,9 +27,9 @@ export default function CardMovie({id, urlImage, title, description, actor, genr
       <img
         src={urlImage}
         alt={`imagem capa do filme ${title}`}
-        className="self-center rounded-xl w-fit h-fit max-w-60 drop-shadow-lg"
+        className="self-center rounded-xl w-full h-fit max-w-60 drop-shadow-lg"
       />
-      <div className="flex flex-col justify-between gap-6 max-w-5xl">
+      <div className="flex flex-col justify-between gap-6 w-full max-w-4xl">
 
         <div className="flex flex-col gap-2">
           <p className="font-bold text-2xl text-center min-[900px]:text-left">{title}</p>
