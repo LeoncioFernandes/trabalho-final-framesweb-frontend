@@ -5,9 +5,8 @@ import { HeaderProps } from "../types/HeaderPropsTypes";
 export default function Header({activeInicialMenu, idMovie, activatingMenu}: HeaderProps) {
 
   const menus = Object.values(Menu) as Menu[]
-  const inicialMenu: Menu = activeInicialMenu
-
-  const [activeButtonMenu, setActiveButtonMenu] = useState<Menu>(inicialMenu);
+  
+  const [activeButtonMenu, setActiveButtonMenu] = useState<Menu>(activeInicialMenu);
 
   function menuActive(menu: Menu){
 
@@ -23,7 +22,7 @@ export default function Header({activeInicialMenu, idMovie, activatingMenu}: Hea
 
   useEffect(() => {
 
-    menuActive(inicialMenu)
+    menuActive(activeInicialMenu)
 
   },[activeInicialMenu])
 

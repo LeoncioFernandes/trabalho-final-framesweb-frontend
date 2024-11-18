@@ -4,8 +4,21 @@ import { CardMovieProps } from "../types/CardMovieTypes";
 
 export default function CardMovie({id, urlImage, title, description, actor, genre, ageGroup, duration, releaseYear, score, onClick}: CardMovieProps){
 
-  const scorePercentualIni = (Number(score.replace(",", ".")) * 100) / 5;
-  const scorePercentualEnd = scorePercentualIni < 50 ? scorePercentualIni - 100 : 100 - scorePercentualIni;
+  const num = Number(score.replace(",", "."))
+
+  const stars: number[] = [];
+
+  for (let i = 0; i < 5; i++) {
+    const rest = num - i;
+    if(rest >= 1){
+      stars.push(100)
+    }else if(rest > 0 && rest < 1){
+      const ini = rest * 100;
+      stars.push(ini)
+    }else{
+      stars.push(0)
+    }   
+  }
 
   return(
     <div
@@ -50,19 +63,19 @@ export default function CardMovie({id, urlImage, title, description, actor, genr
 
             <div className="flex gap-1 items-center">
               <p className="font-bold">Pontuação:</p>
-              <div
-                className="flex"
-                style={{
-                  backgroundImage: `linear-gradient(90deg, #360259 ${scorePercentualIni}%, #FFFFFF ${scorePercentualEnd}%)`,
-                }}
-              >
+              <div className="flex gap-1">
                 {Array.from({ length: 5 }).map((_, index) => (
-                  <img
+                  <div 
                     key={index}
-                    src="./star.svg"
-                    alt="star"
-                    className="w-7 h-7"
-                  />
+                    className="text-4xl"
+                    style={{
+                      background: stars[index] === 100 ? "#360259" : stars[index] === 0 ? "#FFFFFF" : `linear-gradient(90deg, #360259 ${stars[index]}%, #FFFFFF 0%)`,
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent"
+                    }}
+                  >
+                    &#9733;
+                  </div>
                 ))}
               </div>
             </div>
