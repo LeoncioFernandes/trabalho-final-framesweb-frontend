@@ -19,7 +19,7 @@ const schema = z.object({
   actor: z
     .string()
     .min(1, {message: "Ator obrigatório."})
-    .max(50, {message: "O campo não pode ter mais de 100 caracteres."}),
+    .max(300, {message: "O campo não pode ter mais de 300 caracteres."}),
   ageGroup: z
     .string()
     .min(1, {message: "Faixa etária obrigatória."})
