@@ -7,6 +7,8 @@ import instance from "../hooks/instanceApi";
 import { useEffect, useState } from "react";
 import { Movie } from "../types/MovieTypes";
 import { toast } from "react-toastify";
+import Loading from "./Loading";
+import ErrorApiMessage from "./ErrorApiMessage";
 
 const schema = z.object({
   urlImage: z
@@ -54,10 +56,20 @@ type FormMovieProps = z.infer<typeof schema>;
 export default function FormAddEditMovie({idMovie, activatingMenu}: FormAddEditMovieProps) {
 
   const [movieById, setMovieById] = useState<Movie>();
+  const [error, setError] = useState<boolean>(false)
 
   const fetchData = async () => {
-    const result = await instance.get(`movies/${idMovie}`);
-    setMovieById(result.data.movie);
+
+    try {
+
+      const result = await instance.get(`movies/${idMovie}`);
+      setMovieById(result.data.movie);
+      
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    }
+    
   }
 
   useEffect(() => {
@@ -159,170 +171,179 @@ export default function FormAddEditMovie({idMovie, activatingMenu}: FormAddEditM
   return (
     <div className="flex flex-col items-center p-4">
       <h1 className="font-bold text-3xl px-4 pb-4">{idMovie === undefined ? "Cadastrar Filme" : "Editar Filme"}</h1>
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full max-w-5xl"
-      >
-        <div className="relative flex flex-col">
-          <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Título do Filme</label>
-          <input
-            type="text"
-            placeholder="Digite um Título"
-            className="border border-primiry rounded-lg px-4 py-3 text-lg"
-            {...register("title")}
-          />
-          {errors.title && (
-            <span className="text-sm text-red-700 text-right">
-              {errors.title.message?.toString()}
-            </span>
-          )}
-        </div>
-
-        <div className="relative flex flex-col">
-          <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Descrição</label>
-          <textarea
-            placeholder="Digite uma descrição do filme"
-            className="border min-h-60 border-primiry rounded-lg px-4 py-3 text-lg"
-            {...register("description")}
-          />
-          {errors.description && (
-            <span className="text-sm text-red-700 text-right">
-              {errors.description.message?.toString()}
-            </span>
-          )}
-        </div>
-
-        <div className="relative flex flex-col">
-          <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Atores</label>
-          <input
-            type="text"
-            placeholder="Digite pelo menos um ator"
-            className="border border-primiry rounded-lg px-4 py-3 text-lg"
-            {...register("actor")}
-          />
-          {errors.actor && (
-            <span className="text-sm text-red-700 text-right">
-              {errors.actor.message?.toString()}
-            </span>
-          )}
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-4">
-
-          <div className="relative flex flex-col grow">
-            <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Gênero</label>
-            <input
-              type="text"
-              placeholder="Digite pelo menos um Gênero"
-              className="border border-primiry rounded-lg px-4 py-3 text-lg"
-              {...register("genre")}
-            />
-            {errors.genre && (
-              <span className="text-sm text-red-700 text-right">
-                {errors.genre.message?.toString()}
-              </span>
-            )}
-          </div>
-
-          <div className="relative flex flex-col">
-            <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Faixa Etária</label>
-            <input
-              type="text"
-              placeholder="Digite uma Faixa Etária"
-              className="border border-primiry rounded-lg px-4 py-3 text-lg"
-              {...register("ageGroup")}
-            />
-            {errors.ageGroup && (
-              <span className="text-sm text-red-700 text-right">
-                {errors.ageGroup.message?.toString()}
-              </span>
-            )}
-          </div>
-
-        </div>
-
-        <div className="flex flex-col md:flex-row gap-4">
-
-          <div className="relative flex flex-col w-full">
-            <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Duração</label>
-            <input
-              type="text"
-              placeholder="Digite a duração do filme"
-              className="border border-primiry rounded-lg px-4 py-3 text-lg"
-              {...register("duration")}
-            />
-            {errors.duration && (
-              <span className="text-sm text-red-700 text-right">
-                {errors.duration.message?.toString()}
-              </span>
-            )}
-          </div>
-
-          <div className="relative flex flex-col w-full">
-            <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Pontuação do Filme</label>
-            <input
-              type="text"
-              placeholder="Digite a pontuação do filme (entre 0 e 5)"
-              className="border border-primiry rounded-lg px-4 py-3 text-lg"
-              {...register("score")}
-            />
-            {errors.score && (
-              <span className="text-sm text-red-700 text-right">
-                {errors.score.message?.toString()}
-              </span>
-            )}
-          </div>
-
-          <div className="relative flex flex-col w-full">
-            <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Ano de lançamento</label>
-            <input
-              type="text"
-              placeholder="Digite o ano de lançamento do filme"
-              className="border border-primiry rounded-lg px-4 py-3 text-lg"
-              {...register("releaseYear")}
-            />
-            {errors.releaseYear && (
-              <span className="text-sm text-red-700 text-right">
-                {errors.releaseYear.message?.toString()}
-              </span>
-            )}
-          </div>
-
-
-        </div>
-
-        <div className="relative flex flex-col">
-          <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Link da Imagem</label>
-          <input
-            type="text"
-            placeholder="Digite o link da imagem"
-            className="border border-primiry rounded-lg px-4 py-3 text-lg"
-            {...register("urlImage")}
-          />
-          {errors.urlImage && (
-            <span className="text-sm text-red-700 text-right">
-              {errors.urlImage.message?.toString()}
-            </span>
-          )}
-        </div>
-
-        <div className="flex flex-row flex-wrap sm:flex-nowrap gap-4">
-          <button
-            type="button"
-            onClick={() => activatingMenu(undefined, Menu.LISTAR)}
-            className='w-full text-primiry text-lg font-medium border-2 border-primiry rounded-md p-3 transition hover:bg-red-500 hover:text-white drop-shadow-xl'
+      {error && (
+        <ErrorApiMessage />
+      )}
+      {(idMovie && !error && !movieById) ? (
+        <Loading />
+      ) : (
+        !error && (
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-4 w-full max-w-5xl"
           >
-            Cancelar
-          </button>
-          <button
-            type="submit"
-            className='w-full text-variation2 text-lg font-medium bg-primiry rounded-md p-3 transition hover:bg-secondary drop-shadow-xl'
-          >
-            Salvar
-          </button>
-        </div>
+            <div className="relative flex flex-col">
+              <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Título do Filme</label>
+              <input
+                type="text"
+                placeholder="Digite um Título"
+                className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                {...register("title")}
+              />
+              {errors.title && (
+                <span className="text-sm text-red-700 text-right">
+                  {errors.title.message?.toString()}
+                </span>
+              )}
+            </div>
 
-      </form>
+            <div className="relative flex flex-col">
+              <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Descrição</label>
+              <textarea
+                placeholder="Digite uma descrição do filme"
+                className="border min-h-60 border-primiry rounded-lg px-4 py-3 text-lg"
+                {...register("description")}
+              />
+              {errors.description && (
+                <span className="text-sm text-red-700 text-right">
+                  {errors.description.message?.toString()}
+                </span>
+              )}
+            </div>
+
+            <div className="relative flex flex-col">
+              <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Atores</label>
+              <input
+                type="text"
+                placeholder="Digite pelo menos um ator"
+                className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                {...register("actor")}
+              />
+              {errors.actor && (
+                <span className="text-sm text-red-700 text-right">
+                  {errors.actor.message?.toString()}
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4">
+
+              <div className="relative flex flex-col grow">
+                <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Gênero</label>
+                <input
+                  type="text"
+                  placeholder="Digite pelo menos um Gênero"
+                  className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                  {...register("genre")}
+                />
+                {errors.genre && (
+                  <span className="text-sm text-red-700 text-right">
+                    {errors.genre.message?.toString()}
+                  </span>
+                )}
+              </div>
+
+              <div className="relative flex flex-col">
+                <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Faixa Etária</label>
+                <input
+                  type="text"
+                  placeholder="Digite uma Faixa Etária"
+                  className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                  {...register("ageGroup")}
+                />
+                {errors.ageGroup && (
+                  <span className="text-sm text-red-700 text-right">
+                    {errors.ageGroup.message?.toString()}
+                  </span>
+                )}
+              </div>
+
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-4">
+
+              <div className="relative flex flex-col w-full">
+                <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Duração</label>
+                <input
+                  type="text"
+                  placeholder="Digite a duração do filme"
+                  className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                  {...register("duration")}
+                />
+                {errors.duration && (
+                  <span className="text-sm text-red-700 text-right">
+                    {errors.duration.message?.toString()}
+                  </span>
+                )}
+              </div>
+
+              <div className="relative flex flex-col w-full">
+                <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Pontuação do Filme</label>
+                <input
+                  type="text"
+                  placeholder="Digite a pontuação do filme (entre 0 e 5)"
+                  className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                  {...register("score")}
+                />
+                {errors.score && (
+                  <span className="text-sm text-red-700 text-right">
+                    {errors.score.message?.toString()}
+                  </span>
+                )}
+              </div>
+
+              <div className="relative flex flex-col w-full">
+                <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Ano de lançamento</label>
+                <input
+                  type="text"
+                  placeholder="Digite o ano de lançamento do filme"
+                  className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                  {...register("releaseYear")}
+                />
+                {errors.releaseYear && (
+                  <span className="text-sm text-red-700 text-right">
+                    {errors.releaseYear.message?.toString()}
+                  </span>
+                )}
+              </div>
+
+
+            </div>
+
+            <div className="relative flex flex-col">
+              <label className="absolute bg-white font-opensansCondensed font-semibold px-2 -top-1 left-2 leading-[8px]">Link da Imagem</label>
+              <input
+                type="text"
+                placeholder="Digite o link da imagem"
+                className="border border-primiry rounded-lg px-4 py-3 text-lg"
+                {...register("urlImage")}
+              />
+              {errors.urlImage && (
+                <span className="text-sm text-red-700 text-right">
+                  {errors.urlImage.message?.toString()}
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-row flex-wrap sm:flex-nowrap gap-4">
+              <button
+                type="button"
+                onClick={() => activatingMenu(undefined, Menu.LISTAR)}
+                className='w-full text-primiry text-lg font-medium border-2 border-primiry rounded-md p-3 transition hover:bg-red-500 hover:text-white drop-shadow-xl'
+              >
+                Cancelar
+              </button>
+              <button
+                type="submit"
+                className='w-full text-variation2 text-lg font-medium bg-primiry rounded-md p-3 transition hover:bg-secondary drop-shadow-xl'
+              >
+                Salvar
+              </button>
+            </div>
+
+          </form>
+        )
+      )}
       
     </div>
   )

@@ -4,19 +4,30 @@ import { useEffect, useState } from "react";
 import instance from "../hooks/instanceApi";
 import { Movie } from "../types/MovieTypes";
 import CardMovie from "./CardMovie";
+import Loading from "./Loading";
+import ErrorApiMessage from "./ErrorApiMessage";
 
 export default function ListMovies({activatingMenu}: ListMoviesProps) {
 
   const [movies, setMovies] = useState<Movie[]>();
+  const [error, setError] = useState<boolean>(false)
 
   function onClick(id: number, menu: Menu){
     activatingMenu(id, menu)
   }
 
   const fetchData = async () => {
-    const result = await instance.get('movies');
 
-    setMovies(result.data.movies);
+    try {
+
+      const result = await instance.get('movies');
+      setMovies(result.data.movies);
+      
+    } catch (error) {
+      console.log(error);
+      setError(true);
+    }
+    
   }
 
   useEffect(() => {
@@ -26,6 +37,12 @@ export default function ListMovies({activatingMenu}: ListMoviesProps) {
   return (
     <div className="flex flex-col justify-center items-center p-4 overflow-x-auto">
       <h1 className="font-bold text-3xl px-4 pb-4">Listagem de Filmes</h1>
+      {(!movies && !error) && (
+        <Loading />
+      )}
+      {error && (
+        <ErrorApiMessage />
+      )}
       {movies && movies.length === 0 ? (
         <p className="text-lg p-4">Não existem filmes cadastrados!</p>
       ) : (
