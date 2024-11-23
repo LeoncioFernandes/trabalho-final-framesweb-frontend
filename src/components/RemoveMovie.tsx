@@ -16,7 +16,7 @@ export default function RemoveMovie({idMovie, activatingMenu}: RemoveMovieProps)
 
     try {
 
-      const result = await instance.get(`movies/${idMovie}`);
+      const result = await instance.get(`movie/${idMovie}`);
       setMovieById(result.data.movie);
       
     } catch (error) {

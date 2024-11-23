@@ -62,7 +62,7 @@ export default function FormAddEditMovie({idMovie, activatingMenu}: FormAddEditM
 
     try {
 
-      const result = await instance.get(`movies/${idMovie}`);
+      const result = await instance.get(`movie/${idMovie}`);
       setMovieById(result.data.movie);
       
     } catch (error) {
