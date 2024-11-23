@@ -6,7 +6,7 @@ import { Movie } from "../types/MovieTypes";
 import CardMovie from "./CardMovie";
 import Loading from "./Loading";
 import ErrorApiMessage from "./ErrorApiMessage";
-import { IoCloseOutline } from "react-icons/io5";
+import SearchInput from "./SearchInput";
 
 export default function ListMovies({activatingMenu}: ListMoviesProps) {
 
@@ -46,25 +46,17 @@ export default function ListMovies({activatingMenu}: ListMoviesProps) {
   return (
     <div className="flex flex-col gap-4 justify-center items-center p-4 overflow-x-auto">
       <h1 className="font-bold text-3xl px-4">Listagem de Filmes</h1>
-      <div className="relative flex items-center w-full max-w-6xl">
-        <input
-          type="text"
-          placeholder="Digite para pesquisar filmes..."
-          className="w-full border border-primiry rounded-lg px-4 py-3 text-lg focus:outline-none focus:ring-2 focus:ring-primiry focus:border-transparent"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-        {search && (
-          <IoCloseOutline onClick={() => setSearch("")} className='absolute right-3 w-7 h-7 text-secondary hover:cursor-pointer' />
-        )}
-      </div>
+    
+      <SearchInput search={search} setSearch={setSearch} />
       
       {(!movies && !error) && (
         <Loading />
       )}
+
       {error && (
         <ErrorApiMessage />
       )}
+
       {movies && movies.length === 0 ? (
         !search ? (
           <p className="text-lg p-4">Não existem filmes cadastrados!</p>
